@@ -6,8 +6,13 @@ use App\Exceptions\MissingEnergyDataException;
 use App\Http\Requests\CalculateRequest;
 use App\Services\IndexedPriceCalculator;
 use Illuminate\Http\JsonResponse;
+use Dedoc\Scramble\Attributes\Endpoint;
+use Dedoc\Scramble\Attributes\IgnoreResponse;
+use Dedoc\Scramble\Attributes\Response;
+use Dedoc\Scramble\Attributes\BodyParameter;
 use InvalidArgumentException;
 use Throwable;
+
 
 class CalculateController extends Controller
 {
@@ -19,6 +24,48 @@ class CalculateController extends Controller
     /**
      * Handle the incoming request.
      */
+
+    #[Endpoint(
+        operationId: 'calculateIndexedPrice',
+        title: 'Calcular precio indexado',
+        description: 'Calcula el precio indexado de la energía para un período determinado aplicando una fórmula sobre el precio horario OMIE_MD.'
+    )]
+    #[BodyParameter(
+        'start_date',
+        description: 'Fecha inicial del período en formato YYYY-MM-DD.',
+        example: '2025-03-01'
+    )]
+    #[BodyParameter(
+        'end_date',
+        description: 'Fecha final del período en formato YYYY-MM-DD.',
+        example: '2025-03-02'
+    )]
+    #[BodyParameter(
+        'formula',
+        description: 'Fórmula matemática que debe contener la variable [OMIE_MD].',
+        example: '([OMIE_MD] * 0.6) + 0.88'
+    )]
+    #[IgnoreResponse(422)]
+    #[Response(
+        400,
+        'Datos de entrada inválidos o incompletos.',
+        type: 'array{message: string, errors: array}'
+    )]
+    #[Response(
+        404,
+        'No existen datos de consumo o precios para todo el período solicitado.',
+        type: 'array{message: string}'
+    )]
+    #[Response(
+        429,
+        'Se ha superado el límite de solicitudes.',
+        type: 'array{message: string}'
+    )]
+    #[Response(
+        500,
+        'Error durante el procesamiento del cálculo o de la fórmula.',
+        type: 'array{message: string}'
+    )]
     public function __invoke(CalculateRequest $request): JsonResponse
     {
         $validated = $request->validated();

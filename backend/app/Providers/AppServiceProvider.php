@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
+use Dedoc\Scramble\Scramble;
+use Illuminate\Routing\Route;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,5 +33,14 @@ class AppServiceProvider extends ServiceProvider
                     ], 429, $headers);
                 });
         });
+
+        Scramble::configure()
+            ->routes(function (Route $route): bool {
+                return in_array($route->uri, [
+                    'calculate',
+                    'consumptions',
+                    'prices',
+                ], true);
+            });
     }
 }
