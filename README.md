@@ -398,8 +398,10 @@ Las credenciales y claves reales deben configurarse mediante las variables de en
 
 ## URLs
 
-- Aplicación pública: **PENDIENTE**
-- Documentación API: **PENDIENTE**
+
+- **Aplicación:** https://energy-indexation.onrender.com
+- **API REST:** https://energy-indexation-production.up.railway.app
+- **Documentación Swagger / OpenAPI:** https://energy-indexation-production.up.railway.app/docs/api
 
 ---
 
