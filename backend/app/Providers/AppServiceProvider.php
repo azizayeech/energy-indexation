@@ -43,8 +43,8 @@ class AppServiceProvider extends ServiceProvider
                     'prices',
                 ], true);
             });
-            
-        Gate::define('viewApiDocs', function (): bool {
+
+        Gate::define('viewApiDocs', function ($user = null): bool {
             return true;
         });
     }
