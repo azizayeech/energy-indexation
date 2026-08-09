@@ -10,10 +10,11 @@ use Dedoc\Scramble\Attributes\Endpoint;
 use Dedoc\Scramble\Attributes\IgnoreResponse;
 use Dedoc\Scramble\Attributes\Response;
 use Dedoc\Scramble\Attributes\BodyParameter;
+use Dedoc\Scramble\Attributes\Group;
 use InvalidArgumentException;
 use Throwable;
 
-
+#[Group('Cálculo')]
 class CalculateController extends Controller
 {
 
@@ -46,6 +47,14 @@ class CalculateController extends Controller
         example: '([OMIE_MD] * 0.6) + 0.88'
     )]
     #[IgnoreResponse(422)]
+    #[Response(
+        200,
+        'Cálculo realizado correctamente. El campo price_indexed se expresa en €/kWh.',
+        type: 'array{price_indexed: float}',
+        examples: [
+            ['price_indexed' => 0.98],
+        ]
+    )]
     #[Response(
         400,
         'Datos de entrada inválidos o incompletos.',

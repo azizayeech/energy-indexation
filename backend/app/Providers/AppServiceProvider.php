@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Dedoc\Scramble\Scramble;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Gate;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -42,5 +43,9 @@ class AppServiceProvider extends ServiceProvider
                     'prices',
                 ], true);
             });
+            
+        Gate::define('viewApiDocs', function (): bool {
+            return true;
+        });
     }
 }

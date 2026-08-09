@@ -6,7 +6,9 @@ use App\Http\Resources\PriceResource;
 use App\Models\Price;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Dedoc\Scramble\Attributes\Endpoint;
+use Dedoc\Scramble\Attributes\Group;
 
+#[Group('Datos de energía')]
 final class PriceController extends Controller
 {
     #[Endpoint(
