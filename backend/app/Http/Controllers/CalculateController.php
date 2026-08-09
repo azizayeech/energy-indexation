@@ -93,7 +93,9 @@ class CalculateController extends Controller
             return response()->json([
                 'message' => $exception->getMessage(),
             ], 404);
-        } catch (InvalidArgumentException) {
+        } catch (InvalidArgumentException $exception) {
+            report($exception);
+
             return response()->json([
                 'message' => 'Se produjo un error al procesar la fórmula.',
             ], 500);
